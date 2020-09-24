@@ -19,18 +19,10 @@ class Requests {
   }
 
   String getGrns() {
-    // var filter = """
-    //       {
-    //         inboundFetchInput: {
-    //         poNo:"$poNo"
-    //         }
-    //       }
-    //       """;
-
     return """
-    query getGrn(\$requestData: InboundFetchInput)
+    query getGrn(\$filter: InboundFetchInput)
     {
-        goodsReceipts(inboundFetchInput: \$requestData) {
+        goodsReceipts(inboundFetchInput: \$filter) {
           data {
           id
           receiptNo,
@@ -51,26 +43,38 @@ class Requests {
     """;
   }
 
-  String getGrnFilter(String grnsFilter) {
+  // Active now
+  String fetchPo() {
     return """
-    query getGRNsWithParams($grnsFilter: InboundFetchInput){
-  goodsReceipts(inboundFetchInput: $grnsFilter) {
-    data {
-      id
-      receiptNo,
-      poNo,
-      items {
-        id,
-        sku
-        name
-        qty
+     query fetchPo(\$poVar: PoItemsFetchInput!){
+        getPOItems(poItemsFetchInput: \$poVar){
+          name, 
+          poNo,
+          sku,
+          qty,
+          price,
+          total,
+          description,
+          statusCode
+        }
+     }
+    """;
+  }
+
+  String login() {
+    return """
+    mutation auth(\$authData: LoginInput!){
+      authenticate(loginInput: \$authData){
+        email
+        password
+        jwt
+        userId
+        message
+        branchId
+        expireAt
+        contactName
       }
     }
-    count
-    page
-    pages
-  }
-}
     """;
   }
 }
