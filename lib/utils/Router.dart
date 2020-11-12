@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/screens/HomeScreen.dart';
-import 'package:inventory_app/screens/inbound/InboundScreen.dart';
 import 'package:inventory_app/screens/LoginScreen.dart';
-import 'package:inventory_app/screens/outbound/OuboundScreen.dart';
-import 'package:inventory_app/screens/outbound/OuboundTicketScreen.dart';
+import 'package:inventory_app/screens/SplashScreen.dart';
+import 'package:inventory_app/screens/inbound/InboundScreen.dart';
 import 'package:inventory_app/screens/inbound/PutAwayScreen.dart';
 import 'package:inventory_app/screens/inbound/PutAwayScreenGrn.dart';
 import 'package:inventory_app/screens/inbound/ScanIntoLocationScreen.dart';
@@ -11,8 +10,9 @@ import 'package:inventory_app/screens/inbound/ScanIntoLocationSuccessScreen.dart
 import 'package:inventory_app/screens/inbound/ScanScreen.dart';
 import 'package:inventory_app/screens/inbound/ScanSuccessScreen.dart';
 import 'package:inventory_app/screens/inbound/ScanToLocation.dart';
-import 'package:inventory_app/screens/SplashScreen.dart';
 import 'package:inventory_app/screens/inbound/ViewItemsScreen.dart';
+import 'package:inventory_app/screens/outbound/OuboundScreen.dart';
+import 'package:inventory_app/screens/outbound/OuboundTicketScreen.dart';
 import 'package:inventory_app/screens/outbound/ScanLocationScreen.dart';
 import 'package:inventory_app/screens/remove-goods/RemoveGoodsScreen.dart';
 import 'package:inventory_app/screens/scan-items/ScanSingleItemScreen.dart';
@@ -21,7 +21,7 @@ import 'package:inventory_app/screens/stock-transfer/StockTransferScreen.dart';
 
 const initialRoute = '/';
 
-class Router {
+class Routers {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initialRoute:
@@ -37,11 +37,17 @@ class Router {
       case '/view-items':
         return MaterialPageRoute(builder: (_) => ViewItemsScreen());
       case '/scanner':
-        return MaterialPageRoute(builder: (_) => ScanScreen());
+        return MaterialPageRoute(
+            builder: (_) => ScanScreen(
+                  data: settings.arguments,
+                ));
       case '/put-away-grn':
         return MaterialPageRoute(builder: (_) => PutAwayScreenGrn());
       case '/put-away':
-        return MaterialPageRoute(builder: (_) => PutAwayScreen());
+        return MaterialPageRoute(
+            builder: (_) => PutAwayScreen(
+                  data: settings.arguments,
+                ));
       case '/location-scan-entry':
         return MaterialPageRoute(
             builder: (_) => ScanToLocationScreen(
@@ -58,7 +64,7 @@ class Router {
                   locationID: settings.arguments,
                 ));
       case '/scanner-success':
-        return MaterialPageRoute(builder: (_) => ScanSuccessScreen());
+        return MaterialPageRoute(builder: (_) => ScanSuccessScreen(0,""));
       case '/outbound-ticket':
         return MaterialPageRoute(builder: (_) => OutboundTicketScreen());
       case '/outbound-location-scan':

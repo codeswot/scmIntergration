@@ -21,6 +21,7 @@ class _ViewItemsScreenState extends State<ViewItemsScreen> {
 
   final List<POItem> poList = [];
 
+
   bool tileIsOpen = false;
   var network = Network();
   var requests = Requests();
@@ -221,7 +222,8 @@ class _ViewItemsScreenState extends State<ViewItemsScreen> {
               color: AppDarkGreen,
               onPressed: poList.length > 0
                   ? () {
-                      Navigator.of(context).pushNamed('/scanner');
+                      Navigator.of(context)
+                          .pushNamed('/scanner', arguments: {"items": poList,"POID":poIdController.text.toString()});
                     }
                   : null,
               shape: RoundedRectangleBorder(
@@ -257,7 +259,12 @@ class _ViewItemsScreenState extends State<ViewItemsScreen> {
                       : "Desc: ${f.description}",
                   //style: Theme.of(context).textTheme.body1,
                 ),
-                trailing: Text('Qty: ${f.qty}'),
+                trailing: Column(
+                  children: <Widget>[
+                    Text('Sku: ${f.sku}'),
+                    Text('Qty: ${f.qty}'),
+                  ],
+                ),
               ),
             ))
         .toList();
@@ -431,21 +438,18 @@ class POItem {
       items.add(item);
     }*/
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': this.name,
+      'description': this.description,
+      'sku': this.sku,
+      'qty': this.qty,
+      'poNo': this.poNo,
+      'statusCode': this.statusCode,
+      'price': this.price,
+      'total': this.total,
+    };
+  }
 }
 
-/*class ReceiptItem {
-  int id;
-  String name;
-  String sku;
-  int qty;
-  String description;
 
-//  POItem(this.ID, this.title);
-  ReceiptItem.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    sku = json['sku'];
-    qty = json['qty'];
-  }
-}*/

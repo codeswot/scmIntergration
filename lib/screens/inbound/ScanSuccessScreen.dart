@@ -4,6 +4,13 @@ import 'package:inventory_app/screens/utils/CustomRaisedButton.dart';
 import 'package:inventory_app/utils/app_colors.dart';
 
 class ScanSuccessScreen extends StatefulWidget {
+  int length;
+  String poNumber;
+  ScanSuccessScreen(int length, poNumber){
+    this.length=length;
+    this.poNumber=poNumber;
+  }
+
   @override
   _ScanSuccessScreenState createState() => _ScanSuccessScreenState();
 }
@@ -28,7 +35,24 @@ class _ScanSuccessScreenState extends State<ScanSuccessScreen> {
             SizedBox(
               width: MediaQuery.of(context).size.width * .8,
               child: Text(
-                'All 6 items have been scanned'
+                "GRN : "+widget.poNumber,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.body1.copyWith(height: 1.4),
+              ),
+            ),
+           widget.length<2?SizedBox(
+              width: MediaQuery.of(context).size.width * .8,
+              child: Text(
+                ' '+widget.length.toString()+' item have been scanned'
+                ' into the inventory app. What will you'
+                ' like to do next?',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.body1.copyWith(height: 1.4),
+              ),
+            ):SizedBox(
+              width: MediaQuery.of(context).size.width * .8,
+              child: Text(
+                'All '+widget.length.toString()+' items have been scanned'
                 ' into the inventory app. What will you'
                 ' like to do next?',
                 textAlign: TextAlign.center,
@@ -56,7 +80,9 @@ class _ScanSuccessScreenState extends State<ScanSuccessScreen> {
                   ),
                   Expanded(
                     child: CustomRaisedButton(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(context, '/put-away-grn', (_) => false);
+                      },
                       label: 'Put Items Away',
                       type: ButtonType.DeepPurple,
                       padding:
